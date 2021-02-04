@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
+import Google from './Component/Google';
+
+
 function App() {
+  const [tmpWord, setTmpWord] = useState('');
+  const [searchWord, setSearchWord] = useState('');
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <textarea value={tmpWord} onChange={(e)=>setTmpWord(e.target.value)}></textarea>
+        <button onClick={() => setSearchWord(tmpWord)}>Search</button>
       </header>
+      <main>
+        <Google searchWord={searchWord}></Google>
+      </main>
+      <footer></footer>
     </div>
   );
 }
