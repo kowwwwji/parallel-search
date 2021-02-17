@@ -1,0 +1,16 @@
+.Google {
+  display: flex;
+  justify-content: center;
+}
+.result {
+  min-width: 20vw;
+  width: 100%;
+}
+article {
+  border: solid 1px;
+  display: flex;
+  align-items: center;
+}
+article img {
+  max-width: 8vh;
+}
