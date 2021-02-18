@@ -4,17 +4,17 @@ info:
   description: 1 click multiple search web site
   version: 1.0.0
 servers:
-- url: /api/v1
+  - url: /api/v1
 tags:
-- name: Examples
-  description: Simple example endpoints
-- name: Specification
-  description: The swagger API specification
+  - name: Examples
+    description: Simple example endpoints
+  - name: Specification
+    description: The swagger API specification
 paths:
   /examples:
     get:
       tags:
-      - Examples
+        - Examples
       description: Fetch all examples
       responses:
         200:
@@ -22,7 +22,7 @@ paths:
           content: {}
     post:
       tags:
-      - Examples
+        - Examples
       description: Create a new example
       requestBody:
         description: an example
@@ -38,14 +38,14 @@ paths:
   /examples/{id}:
     get:
       tags:
-      - Examples
+        - Examples
       parameters:
-      - name: id
-        in: path
-        description: The id of the example to retrieve
-        required: true
-        schema:
-          type: integer
+        - name: id
+          in: path
+          description: The id of the example to retrieve
+          required: true
+          schema:
+            type: integer
       responses:
         200:
           description: Return the example with the specified id
@@ -53,10 +53,32 @@ paths:
         404:
           description: Example not found
           content: {}
+  /twitter/{result_type}:
+    get:
+      tags:
+        - Twitter
+      description: https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets
+      parameters:
+        - name: result_type
+          in: path
+          description: api parameters
+          required: true
+          schema:
+            type: string
+        - name: query
+          in: query
+          description:
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Return the API specification
+          content: {}
   /spec:
     get:
       tags:
-      - Specification
+        - Specification
       responses:
         200:
           description: Return the API specification
@@ -66,7 +88,7 @@ components:
     ExampleBody:
       title: example
       required:
-      - name
+        - name
       type: object
       properties:
         name:
