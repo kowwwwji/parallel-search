@@ -23,7 +23,7 @@ function Google(props: any){
 
   const listItems = items.map((item: any, index:number)=>{
     return <article key={index}>
-      {item.pagemap.cse_thumbnail &&
+      {item.pagemap && item.pagemap.cse_thumbnail &&
         <img src={item.pagemap.cse_thumbnail[0].src} alt='thumbnail'></img>
       }
       <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}</a>

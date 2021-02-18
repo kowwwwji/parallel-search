@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 
-import TwitterClient from 'twitter';
+import './Result.css'
 
 function Twitter(props: any){
 
@@ -12,10 +12,9 @@ function Twitter(props: any){
     if(props.searchWord){
       let unmounted = false;
       (async()=>{
-        // const res = await getData(props.searchWord);
         const res = await getTwtter(props.searchWord);
-        // setResult(res.data);
-        // setItems(res.data.items)
+        setResult(res);
+        setItems(res.data);
       })()
       //クリーンアップ関数を返す
       return ()=>{ unmounted = true; };
@@ -24,60 +23,33 @@ function Twitter(props: any){
 
   const listItems = items.map((item: any, index:number)=>{
     return <article key={index}>
-      {item.pagemap.cse_thumbnail &&
-        <img src={item.pagemap.cse_thumbnail[0].src} alt='thumbnail'></img>
-      }
-      <a href={item.link} target="_blank" rel="noopener noreferrer">{item.title}</a>
-      <pre>{item.snippet}</pre>
+      <a href={`https://twitter.com/${item.user.screen_name}`} target="_blank" rel="noopener noreferrer">
+        <img src={item.user.profile_image_url} alt='thumbnail'></img>
+        {item.user.name}
+      </a>
+      <a href={`https://twitter.com/${item.user.screen_name}/status/${item.id_str}`} target="_blank" rel="noopener noreferrer">
+        <p>{item.text}</p>
+        <p>{item.created_at}</p>
+      </a>
     </article>
   });
 
   return <section className='result'>
-    <p>{result.searchInformation?.formattedTotalResults}件ヒットしました。</p>
     {listItems}
   </section>
 
 }
 
-const client = new TwitterClient({
-  consumer_key: process.env.REACT_APP_TWITTER_API_KEY!,
-  consumer_secret: process.env.REACT_APP_TWITTER_API_SECRET_KEY!,
-  access_token_key: process.env.REACT_APP_TWITTER_ACCESS_TOKEN!,
-  access_token_secret: process.env.REACT_APP_TWITTER_ACCESS_TOKEN_SECRET!,
-})
-const getData = async(query: string)=>{
-  const param = {
-    q: query,
-    lang: 'ja',
-    locale: 'ja',
-    result_type: 'mixed'
-  }
-  return await client.get("search/tweets", param, (error: any, res: any, req: any) => {
-    if (error) {
-      console.log(error)
-    }
-    return res
-  })
-}
-
 const config: AxiosRequestConfig = {
-  baseURL: 'https://api.twitter.com/1.1/',
+  baseURL: 'http://localhost:3000',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${process.env.REACT_APP_TWITTER_BEARLER_TOKEN}`,
   },
 };
-const inst: AxiosInstance = Axios.create(config);
+const ai: AxiosInstance = Axios.create(config);
 const getTwtter = async(query: string)=>{
-  return await Axios.get('/api/v1/')
-  // return inst.get('search/tweets.json', {
-  //   params: {
-  //     q: query,
-  //     lang: 'ja',
-  //     locale: 'ja',
-  //     result_type: 'mixed'
-  //   }
-  // });
+  // return await ai.get('/api/v1/twitter/recent', {params: {query: query}})
+  return await ai.get('/api/v1/twitter/popular', {params: {query: query}})
 }
 
 export default Twitter

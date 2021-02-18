@@ -30,7 +30,7 @@ function App() {
       </header>
       <main>
         <Google searchWord={searchWord}></Google>
-        {/* <Twitter searchWord={searchWord}></Twitter> */}
+        <Twitter searchWord={searchWord}></Twitter>
       </main>
       <footer></footer>
     </div>
